@@ -11,8 +11,8 @@ import (
 
 func TestUserMethod(t *testing.T) {
 	h := server.Default()
-	h.GET("/user", UserMethod)
-	w := ut.PerformRequest(h.Engine, "GET", "/user", &ut.Body{Body: bytes.NewBufferString(""), Len: 1},
+	h.GET("/me", UserMethod)
+	w := ut.PerformRequest(h.Engine, "GET", "/me", &ut.Body{Body: bytes.NewBufferString(""), Len: 1},
 		ut.Header{})
 	resp := w.Result()
 	assert.DeepEqual(t, 201, resp.StatusCode())
@@ -24,6 +24,17 @@ func TestUserLogin(t *testing.T) {
 	h := server.Default()
 	h.GET("/user/login", UserLogin)
 	w := ut.PerformRequest(h.Engine, "POST", "/user/login", &ut.Body{Body: bytes.NewBufferString(""), Len: 1},
+		ut.Header{})
+	resp := w.Result()
+	assert.DeepEqual(t, 201, resp.StatusCode())
+	assert.DeepEqual(t, "", string(resp.Body()))
+	// todo edit your unit test.
+}
+
+func TestUserInfo(t *testing.T) {
+	h := server.Default()
+	h.GET("/user/{id}", UserInfo)
+	w := ut.PerformRequest(h.Engine, "GET", "/user/{id}", &ut.Body{Body: bytes.NewBufferString(""), Len: 1},
 		ut.Header{})
 	resp := w.Result()
 	assert.DeepEqual(t, 201, resp.StatusCode())

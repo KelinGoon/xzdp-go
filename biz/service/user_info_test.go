@@ -9,10 +9,10 @@ import (
 	xzdp "xzdp/biz/model/xzdp"
 )
 
-func TestUserMethodService_Run(t *testing.T) {
+func TestUserInfoService_Run(t *testing.T) {
 	ctx := context.Background()
 	c := app.NewContext(1)
-	s := NewUserMethodService(ctx, c)
+	s := NewUserInfoService(ctx, c)
 	// init req and assert value
 	req := &string{}
 	resp, err := s.Run(req)

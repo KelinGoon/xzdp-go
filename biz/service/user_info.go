@@ -7,16 +7,16 @@ import (
 	xzdp "xzdp/biz/model/xzdp"
 )
 
-type UserLoginService struct {
+type UserInfoService struct {
 	RequestContext *app.RequestContext
 	Context        context.Context
 }
 
-func NewUserLoginService(Context context.Context, RequestContext *app.RequestContext) *UserLoginService {
-	return &UserLoginService{RequestContext: RequestContext, Context: Context}
+func NewUserInfoService(Context context.Context, RequestContext *app.RequestContext) *UserInfoService {
+	return &UserInfoService{RequestContext: RequestContext, Context: Context}
 }
 
-func (h *UserLoginService) Run(req *xzdp.UserLoginFrom) (resp *xzdp.Result, err error) {
+func (h *UserInfoService) Run(req *string) (resp *xzdp.UserResp, err error) {
 	//defer func() {
 	// hlog.CtxInfof(h.Context, "req = %+v", req)
 	// hlog.CtxInfof(h.Context, "resp = %+v", resp)

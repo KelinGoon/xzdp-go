@@ -14,7 +14,7 @@ func TestUserLoginService_Run(t *testing.T) {
 	c := app.NewContext(1)
 	s := NewUserLoginService(ctx, c)
 	// init req and assert value
-	req := &xzdp.UserReq{}
+	req := &xzdp.UserLoginFrom{}
 	resp, err := s.Run(req)
 	assert.DeepEqual(t, nil, resp)
 	assert.DeepEqual(t, nil, err)

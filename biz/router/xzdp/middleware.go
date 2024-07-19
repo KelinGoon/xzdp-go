@@ -16,12 +16,17 @@ func _hellomethodMw() []app.HandlerFunc {
 	return nil
 }
 
+func _usermethodMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
 func _userMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
 
-func _usermethodMw() []app.HandlerFunc {
+func _userinfoMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }

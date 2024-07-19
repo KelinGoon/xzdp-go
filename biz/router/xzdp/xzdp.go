@@ -18,7 +18,10 @@ func Register(r *server.Hertz) {
 
 	root := r.Group("/", rootMw()...)
 	root.GET("/hello", append(_hellomethodMw(), xzdp.HelloMethod)...)
-	root.GET("/user", append(_usermethodMw(), xzdp.UserMethod)...)
-	_user := root.Group("/user", _userMw()...)
-	_user.POST("/login", append(_userloginMw(), xzdp.UserLogin)...)
+	root.GET("/me", append(_usermethodMw(), xzdp.UserMethod)...)
+	{
+		_user := root.Group("/user", _userMw()...)
+		_user.GET("/:id", append(_userinfoMw(), xzdp.UserInfo)...)
+		_user.POST("/login", append(_userloginMw(), xzdp.UserLogin)...)
+	}
 }
