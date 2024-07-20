@@ -50,3 +50,13 @@ func _shoplistMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _blogMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _gethotblogMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

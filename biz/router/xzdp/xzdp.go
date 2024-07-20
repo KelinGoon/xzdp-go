@@ -20,6 +20,10 @@ func Register(r *server.Hertz) {
 	root.GET("/hello", append(_hellomethodMw(), xzdp.HelloMethod)...)
 	root.GET("/me", append(_usermethodMw(), xzdp.UserMethod)...)
 	{
+		_blog := root.Group("/blog", _blogMw()...)
+		_blog.GET("/hot", append(_gethotblogMw(), xzdp.GetHotBlog)...)
+	}
+	{
 		_shop_type := root.Group("/shop-type", _shop_typeMw()...)
 		_shop_type.GET("/list", append(_shoplistMw(), xzdp.ShopList)...)
 	}
