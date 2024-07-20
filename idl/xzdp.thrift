@@ -39,7 +39,7 @@ struct User {
 
 struct Result {
     1: bool success,
-    2: string errorMsg,
+    2: optional string errorMsg,
     3: optional string data, // 使用 string 类型来表示泛型对象。你可以根据需要选择合适的数据类型。
     4: optional i64 total
 }
@@ -56,10 +56,10 @@ struct ShopType {
 }
 
 service UserService {
-    UserResp UserMethod(1: string Id) (api.get="/me");
-    UserResp UserCode(1: UserLoginFrom request) (api.post="/user/code");
-    Result UserLogin(1: UserLoginFrom request) (api.post="/user/login");
-    UserResp UserInfo(1: string Id) (api.get="/user/{id}");
+    UserResp UserMethod(1: UserLoginFrom request) (api.get="/user/me");
+    UserResp SendCode(1: UserLoginFrom request) (api.post="/user/code");
+    UserResp UserLogin(1: UserLoginFrom request) (api.post="/user/login");
+    UserResp UserInfo(1: UserLoginFrom request) (api.get="/user/:id");
 }
 
 

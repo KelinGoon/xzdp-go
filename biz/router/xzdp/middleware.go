@@ -60,3 +60,8 @@ func _gethotblogMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _sendcodeMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

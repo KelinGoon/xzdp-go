@@ -9,10 +9,10 @@ import (
 	xzdp "xzdp/biz/model/xzdp"
 )
 
-func TestUserCodeService_Run(t *testing.T) {
+func TestSendCodeService_Run(t *testing.T) {
 	ctx := context.Background()
 	c := app.NewContext(1)
-	s := NewUserCodeService(ctx, c)
+	s := NewSendCodeService(ctx, c)
 	// init req and assert value
 	req := &xzdp.UserLoginFrom{}
 	resp, err := s.Run(req)

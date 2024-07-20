@@ -19,3 +19,8 @@ func SendSuccessResponse(ctx context.Context, c *app.RequestContext, code int, d
 	response := xzdp.NewSuccessResponse(data)
 	c.JSON(code, response)
 }
+
+func SendRawResponse(ctx context.Context, c *app.RequestContext, code int, data interface{}) {
+	// todo edit custom code
+	c.JSON(code, data)
+}
