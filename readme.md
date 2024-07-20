@@ -1,6 +1,8 @@
-# *** Project
+# *** 小众点评
 
 ## introduce
+
+本项目使用go语言重构黑马点评项目，方便使用go语言的同学学习黑马程序员的redis课程，欢迎一起交流学习。  
 
 - Use the [Hertz](https://github.com/cloudwego/hertz/) framework
 - Integration of pprof, cors, recovery, access_log, gzip and other extensions of Hertz.

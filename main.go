@@ -3,11 +3,17 @@
 package main
 
 import (
+	"xzdp/biz/dal/mysql"
+	"xzdp/biz/dal/redis"
+	"xzdp/conf"
+
 	"github.com/cloudwego/hertz/pkg/app/server"
 )
 
 func main() {
-	h := server.Default()
+	h := server.Default(server.WithHostPorts(conf.GetConf().Hertz.Address))
+	mysql.Init()
+	redis.Init()
 
 	register(h)
 	h.Spin()

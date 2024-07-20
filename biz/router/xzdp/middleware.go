@@ -35,3 +35,18 @@ func _userloginMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _usercodeMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _shop_typeMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _shoplistMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

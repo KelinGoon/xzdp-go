@@ -3,6 +3,8 @@ namespace go xzdp
 
 // import "github.com/hertz-contrib/sessions"
 
+struct Empty {}
+
 struct HelloReq {
     1: string Name (api.query="name");
 }
@@ -37,9 +39,21 @@ struct UserResp {
     1: string RespBody;
 }
 
+struct ShopType {
+    1: i64 id
+    2: string name
+    3: string icon
+    4: i32 sort
+}
 
 service UserService {
     UserResp UserMethod(1: string Id) (api.get="/me");
+    UserResp UserCode(1: UserLoginFrom request) (api.post="/user/code");
     Result UserLogin(1: UserLoginFrom request) (api.post="/user/login");
     UserResp UserInfo(1: string Id) (api.get="/user/{id}");
+}
+
+
+service ShopService {
+    list<ShopType> ShopList(1: Empty request) (api.get="/shop-type/list");
 }
