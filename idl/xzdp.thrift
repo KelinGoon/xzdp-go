@@ -29,7 +29,7 @@ struct UserLoginFrom {
 }
 
 struct User {
-    1: string Phone 
+    1: string Phone (api.query="phone");
     2: string code
     3: string password 
     4: i64 id

@@ -10,7 +10,8 @@ import (
 // SendErrResponse  pack error response
 func SendErrResponse(ctx context.Context, c *app.RequestContext, code int, err error) {
 	// todo edit custom code
-	c.String(code, err.Error())
+	response := xzdp.NewFailureResponse(err.Error())
+	c.JSON(code, response)
 }
 
 // SendSuccessResponse  pack success response

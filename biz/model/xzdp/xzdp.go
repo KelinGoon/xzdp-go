@@ -797,7 +797,7 @@ func (p *UserLoginFrom) String() string {
 }
 
 type User struct {
-	Phone    string `thrift:"Phone,1" form:"Phone" json:"Phone" query:"Phone"`
+	Phone    string `thrift:"Phone,1" json:"Phone" query:"phone"`
 	Code     string `thrift:"code,2" form:"code" json:"code" query:"code"`
 	Password string `thrift:"password,3" form:"password" json:"password" query:"password"`
 	ID       int64  `thrift:"id,4" form:"id" json:"id" query:"id"`

@@ -4,6 +4,10 @@ type Response struct {
 	Success bool        `json:"success"`
 	Data    interface{} `json:"data"`
 }
+type FailResponse struct {
+	Success bool   `json:"success"`
+	ErrmMsg string `json:"errorMsg"`
+}
 
 func NewSuccessResponse(data interface{}) *Response {
 	return &Response{
@@ -12,9 +16,9 @@ func NewSuccessResponse(data interface{}) *Response {
 	}
 }
 
-func NewFailureResponse(message string) *Response {
-	return &Response{
+func NewFailureResponse(message string) *FailResponse {
+	return &FailResponse{
 		Success: false,
-		Data:    map[string]string{"error": message},
+		ErrmMsg: message,
 	}
 }
