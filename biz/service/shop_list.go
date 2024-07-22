@@ -9,7 +9,7 @@ import (
 	"xzdp/biz/dal/mysql"
 	"xzdp/biz/dal/redis"
 	shop "xzdp/biz/model/shop"
-	"xzdp/pkg/constants"
+	"xzdp/biz/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/hlog"

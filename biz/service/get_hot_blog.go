@@ -5,7 +5,7 @@ import (
 
 	"xzdp/biz/dal/mysql"
 	blog "xzdp/biz/model/blog"
-	"xzdp/pkg/constants"
+	"xzdp/biz/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/hlog"

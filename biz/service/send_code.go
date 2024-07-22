@@ -6,8 +6,8 @@ import (
 
 	"xzdp/biz/dal/redis"
 	user "xzdp/biz/model/user"
+	"xzdp/biz/pkg/constants"
 	"xzdp/biz/utils"
-	"xzdp/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/hlog"

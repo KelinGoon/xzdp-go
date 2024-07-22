@@ -7,11 +7,12 @@ import (
 	"xzdp/biz/dal/mysql"
 	"xzdp/biz/dal/redis"
 	model "xzdp/biz/model/user"
+	"xzdp/biz/pkg/constants"
 	"xzdp/biz/utils"
-	"xzdp/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
+	"github.com/jinzhu/copier"
 )
 
 type UserLoginService struct {
@@ -56,18 +57,23 @@ func (h *UserLoginService) Run(req *model.UserLoginFrom) (resp *model.Result, er
 	if err != nil {
 		return nil, err
 	}
-
-	redis.RedisClient.HSet(h.Context, constants.LOGIN_USER_KEY+phone, "token", map[string]interface{}{
-		"id":       user.ID,
-		"nickname": user.NickName,
-		"icon":     user.Icon,
-	})
+	var userdto model.UserDTO
+	copier.Copy(&userdto, &user)
+	if err = redis.RedisClient.HMSet(h.Context, constants.LOGIN_USER_KEY+token, map[string]interface{}{
+		"id":        userdto.ID,
+		"nick_name": userdto.NickName,
+		"icon":      userdto.Icon,
+	}).Err(); err != nil {
+		hlog.CtxErrorf(h.Context, "err = %s", err.Error())
+		hlog.CtxErrorf(h.Context, "userdto = %+v", userdto)
+		return nil, err
+	}
 	fmt.Println(token)
 	return &model.Result{Success: true, Data: &token}, nil
 }
 
 func (h *UserLoginService) createNewUserWithPhone(phone string) error {
-	user := mysql.User{
+	user := model.User{
 		Phone: phone,
 	}
 	result := mysql.DB.Create(&user)

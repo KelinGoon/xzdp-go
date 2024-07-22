@@ -7,21 +7,21 @@ struct Session {
     1: string Token;
 }
 struct UserLoginFrom {
-    1: string Phone (api.query="phone");
+    1: string Phone (api.query="phone", go.tag='gorm:"phone"');
     2: string code (api.query="code");
     3: string password (api.query="password");
     4: Session session (api.query="session");
 }
 
 struct User {
-    1: string Phone (api.query="phone");
-    2: string code
-    3: string password 
-    4: i64 id
-    5: string NickName
-    6: string icon
-    7: string createTime
-    8: string updateTime
+    1: string Phone (go.tag='gorm:"phone"');
+    2: string code (go.tag='gorm:"-"');
+    3: string password (go.tag='gorm:"password"');
+    4: i64 id (go.tag='gorm:"id"');
+    5: string NickName (go.tag='gorm:"nick_name"');
+    6: string icon (go.tag='gorm:"icon"');
+    7: string createTime (go.tag='gorm:"create_time"');
+    8: string updateTime (go.tag='gorm:"update_time"');
 }
 
 struct Result {
@@ -33,6 +33,12 @@ struct Result {
 
 struct UserResp {
     1: string RespBody;
+}
+
+struct UserDTO {
+    1: i64 id (go.tag = 'redis:"id"'),
+    2: string NickName (go.tag = 'redis:"nick_name"')
+    3: string icon (go.tag = 'redis:"icon"')
 }
 
 service UserService {

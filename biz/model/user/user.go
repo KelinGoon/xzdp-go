@@ -232,7 +232,7 @@ func (p *Session) String() string {
 }
 
 type UserLoginFrom struct {
-	Phone    string   `thrift:"Phone,1" json:"Phone" query:"phone"`
+	Phone    string   `thrift:"Phone,1" gorm:"phone" json:"Phone" query:"phone"`
 	Code     string   `thrift:"code,2" json:"code" query:"code"`
 	Password string   `thrift:"password,3" json:"password" query:"password"`
 	Session  *Session `thrift:"session,4" json:"session" query:"session"`
@@ -516,14 +516,14 @@ func (p *UserLoginFrom) String() string {
 }
 
 type User struct {
-	Phone      string `thrift:"Phone,1" json:"Phone" query:"phone"`
-	Code       string `thrift:"code,2" form:"code" json:"code" query:"code"`
-	Password   string `thrift:"password,3" form:"password" json:"password" query:"password"`
-	ID         int64  `thrift:"id,4" form:"id" json:"id" query:"id"`
-	NickName   string `thrift:"NickName,5" form:"NickName" json:"NickName" query:"NickName"`
-	Icon       string `thrift:"icon,6" form:"icon" json:"icon" query:"icon"`
-	CreateTime string `thrift:"createTime,7" form:"createTime" json:"createTime" query:"createTime"`
-	UpdateTime string `thrift:"updateTime,8" form:"updateTime" json:"updateTime" query:"updateTime"`
+	Phone      string `thrift:"Phone,1" gorm:"phone" form:"Phone" json:"Phone" query:"Phone"`
+	Code       string `thrift:"code,2" gorm:"-" form:"code" json:"code" query:"code"`
+	Password   string `thrift:"password,3" gorm:"password" form:"password" json:"password" query:"password"`
+	ID         int64  `thrift:"id,4" gorm:"id" form:"id" json:"id" query:"id"`
+	NickName   string `thrift:"NickName,5" gorm:"nick_name" form:"NickName" json:"NickName" query:"NickName"`
+	Icon       string `thrift:"icon,6" gorm:"icon" form:"icon" json:"icon" query:"icon"`
+	CreateTime string `thrift:"createTime,7" gorm:"create_time" form:"createTime" json:"createTime" query:"createTime"`
+	UpdateTime string `thrift:"updateTime,8" gorm:"update_time" form:"updateTime" json:"updateTime" query:"updateTime"`
 }
 
 func NewUser() *User {
@@ -1426,6 +1426,238 @@ func (p *UserResp) String() string {
 		return "<nil>"
 	}
 	return fmt.Sprintf("UserResp(%+v)", *p)
+
+}
+
+type UserDTO struct {
+	ID       int64  `thrift:"id,1" redis:"id" form:"id" json:"id" query:"id"`
+	NickName string `thrift:"NickName,2" redis:"nick_name" form:"NickName" json:"NickName" query:"NickName"`
+	Icon     string `thrift:"icon,3" redis:"icon" form:"icon" json:"icon" query:"icon"`
+}
+
+func NewUserDTO() *UserDTO {
+	return &UserDTO{}
+}
+
+func (p *UserDTO) InitDefault() {
+}
+
+func (p *UserDTO) GetID() (v int64) {
+	return p.ID
+}
+
+func (p *UserDTO) GetNickName() (v string) {
+	return p.NickName
+}
+
+func (p *UserDTO) GetIcon() (v string) {
+	return p.Icon
+}
+
+var fieldIDToName_UserDTO = map[int16]string{
+	1: "id",
+	2: "NickName",
+	3: "icon",
+}
+
+func (p *UserDTO) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.I64 {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 2:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 3:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_UserDTO[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *UserDTO) ReadField1(iprot thrift.TProtocol) error {
+
+	var _field int64
+	if v, err := iprot.ReadI64(); err != nil {
+		return err
+	} else {
+		_field = v
+	}
+	p.ID = _field
+	return nil
+}
+func (p *UserDTO) ReadField2(iprot thrift.TProtocol) error {
+
+	var _field string
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		_field = v
+	}
+	p.NickName = _field
+	return nil
+}
+func (p *UserDTO) ReadField3(iprot thrift.TProtocol) error {
+
+	var _field string
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		_field = v
+	}
+	p.Icon = _field
+	return nil
+}
+
+func (p *UserDTO) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("UserDTO"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *UserDTO) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("id", thrift.I64, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI64(p.ID); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *UserDTO) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("NickName", thrift.STRING, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.NickName); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *UserDTO) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("icon", thrift.STRING, 3); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Icon); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
+func (p *UserDTO) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UserDTO(%+v)", *p)
 
 }
 

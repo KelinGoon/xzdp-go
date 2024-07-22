@@ -11,7 +11,7 @@ import (
 
 func TestUserMethod(t *testing.T) {
 	h := server.Default()
-	h.GET("/user/me", UserMethod)
+	h.GET("/user/me", UserMe)
 	w := ut.PerformRequest(h.Engine, "GET", "/user/me", &ut.Body{Body: bytes.NewBufferString(""), Len: 1},
 		ut.Header{})
 	resp := w.Result()

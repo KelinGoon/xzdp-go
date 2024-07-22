@@ -5,6 +5,7 @@ package main
 import (
 	"xzdp/biz/dal/mysql"
 	"xzdp/biz/dal/redis"
+	"xzdp/biz/middleware/interceptor"
 	"xzdp/conf"
 
 	"github.com/cloudwego/hertz/pkg/app/server"
@@ -12,6 +13,7 @@ import (
 
 func main() {
 	h := server.Default(server.WithHostPorts(conf.GetConf().Hertz.Address))
+	h.Use(interceptor.CheckToken)
 	mysql.Init()
 	redis.Init()
 
