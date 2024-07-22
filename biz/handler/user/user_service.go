@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"xzdp/biz/model/user"
 	model "xzdp/biz/model/user"
 	"xzdp/biz/service"
 	"xzdp/biz/utils"
@@ -79,14 +78,14 @@ func UserInfo(ctx context.Context, c *app.RequestContext) {
 // @router /user/me [GET]
 func UserMe(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req user.Empty
+	var req model.Empty
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
-	fmt.Println(c.Request.Header.Get("Authorization"))
-	resp, err := service.NewUserMeService(ctx, c).Run()
+
+	resp, err := service.NewUserMeService(ctx, c).Run(&req)
 
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)

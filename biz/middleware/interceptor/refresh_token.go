@@ -9,9 +9,11 @@ import (
 	"xzdp/biz/utils"
 
 	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/cloudwego/hertz/pkg/common/hlog"
 )
 
 func CheckToken(ctx context.Context, c *app.RequestContext) {
+	hlog.CtxInfof(ctx, "check token interceptor")
 	token := c.GetHeader("authorization")
 	if token == nil {
 		c.Next(ctx)
@@ -24,6 +26,19 @@ func CheckToken(ctx context.Context, c *app.RequestContext) {
 		c.Next(ctx)
 	}
 	redis.RedisClient.Expire(ctx, constants.LOGIN_USER_KEY+string(token), time.Minute*1)
-	utils.SaveUser(ctx, &userdto)
+	ctx = utils.SaveUser(ctx, &userdto)
+	c.Next(ctx)
+	if utils.GetUser(ctx) == nil {
+		hlog.CtxErrorf(ctx, "check token interceptor error")
+	}
+	hlog.CtxDebugf(ctx, "user = %+v", utils.GetUser(ctx))
+}
+
+func LoginInterceptor(ctx context.Context, c *app.RequestContext) {
+	hlog.CtxInfof(ctx, "login interceptor")
+	if utils.GetUser(ctx) == nil {
+		c.SetStatusCode(401)
+		c.Abort()
+	}
 	c.Next(ctx)
 }

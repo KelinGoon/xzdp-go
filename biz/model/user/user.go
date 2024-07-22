@@ -1662,7 +1662,7 @@ func (p *UserDTO) String() string {
 }
 
 type UserService interface {
-	UserMe(ctx context.Context, request *Empty) (r *UserResp, err error)
+	UserMe(ctx context.Context, request *Empty) (r *UserDTO, err error)
 
 	SendCode(ctx context.Context, request *UserLoginFrom) (r *UserResp, err error)
 
@@ -1697,7 +1697,7 @@ func (p *UserServiceClient) Client_() thrift.TClient {
 	return p.c
 }
 
-func (p *UserServiceClient) UserMe(ctx context.Context, request *Empty) (r *UserResp, err error) {
+func (p *UserServiceClient) UserMe(ctx context.Context, request *Empty) (r *UserDTO, err error) {
 	var _args UserServiceUserMeArgs
 	_args.Request = request
 	var _result UserServiceUserMeResult
@@ -1797,7 +1797,7 @@ func (p *userServiceProcessorUserMe) Process(ctx context.Context, seqId int32, i
 	iprot.ReadMessageEnd()
 	var err2 error
 	result := UserServiceUserMeResult{}
-	var retval *UserResp
+	var retval *UserDTO
 	if retval, err2 = p.handler.UserMe(ctx, args.Request); err2 != nil {
 		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing UserMe: "+err2.Error())
 		oprot.WriteMessageBegin("UserMe", thrift.EXCEPTION, seqId)
@@ -2117,7 +2117,7 @@ func (p *UserServiceUserMeArgs) String() string {
 }
 
 type UserServiceUserMeResult struct {
-	Success *UserResp `thrift:"success,0,optional"`
+	Success *UserDTO `thrift:"success,0,optional"`
 }
 
 func NewUserServiceUserMeResult() *UserServiceUserMeResult {
@@ -2127,9 +2127,9 @@ func NewUserServiceUserMeResult() *UserServiceUserMeResult {
 func (p *UserServiceUserMeResult) InitDefault() {
 }
 
-var UserServiceUserMeResult_Success_DEFAULT *UserResp
+var UserServiceUserMeResult_Success_DEFAULT *UserDTO
 
-func (p *UserServiceUserMeResult) GetSuccess() (v *UserResp) {
+func (p *UserServiceUserMeResult) GetSuccess() (v *UserDTO) {
 	if !p.IsSetSuccess() {
 		return UserServiceUserMeResult_Success_DEFAULT
 	}
@@ -2201,7 +2201,7 @@ ReadStructEndError:
 }
 
 func (p *UserServiceUserMeResult) ReadField0(iprot thrift.TProtocol) error {
-	_field := NewUserResp()
+	_field := NewUserDTO()
 	if err := _field.Read(iprot); err != nil {
 		return err
 	}

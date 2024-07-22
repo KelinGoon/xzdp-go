@@ -42,7 +42,7 @@ struct UserDTO {
 }
 
 service UserService {
-    UserResp UserMe(1: Empty request) (api.get="/user/me");
+    UserDTO UserMe(1: Empty request) (api.get="/user/me");
     UserResp SendCode(1: UserLoginFrom request) (api.post="/user/code");
     UserResp UserLogin(1: UserLoginFrom request) (api.post="/user/login");
     UserResp UserInfo(1: UserLoginFrom request) (api.get="/user/:id");

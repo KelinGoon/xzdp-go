@@ -14,7 +14,7 @@ func TestUserMeService_Run(t *testing.T) {
 	c := app.NewContext(1)
 	s := NewUserMeService(ctx, c)
 	// init req and assert value
-	req := &string{}
+	req := &user.Empty{}
 	resp, err := s.Run(req)
 	assert.DeepEqual(t, nil, resp)
 	assert.DeepEqual(t, nil, err)
