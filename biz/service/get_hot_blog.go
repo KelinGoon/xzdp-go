@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"xzdp/biz/dal/mysql"
-	xzdp "xzdp/biz/model/xzdp"
+	blog "xzdp/biz/model/blog"
 	"xzdp/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
@@ -20,8 +20,8 @@ func NewGetHotBlogService(Context context.Context, RequestContext *app.RequestCo
 	return &GetHotBlogService{RequestContext: RequestContext, Context: Context}
 }
 
-func QueryHotBlog(ctx context.Context, current int) (resp []*xzdp.Blog, err error) {
-	var blogs []*xzdp.Blog
+func QueryHotBlog(ctx context.Context, current int) (resp []*blog.Blog, err error) {
+	var blogs []*blog.Blog
 	pageSize := constants.MAX_PAGE_SIZE
 
 	if err := mysql.DB.Order("liked desc").Limit(pageSize).Offset((current - 1) * pageSize).Find(&blogs).Error; err != nil {
@@ -48,7 +48,7 @@ func QueryHotBlog(ctx context.Context, current int) (resp []*xzdp.Blog, err erro
 	return blogs, nil
 }
 
-func (h *GetHotBlogService) Run(req *xzdp.BlogReq) (resp *[]*xzdp.Blog, err error) {
+func (h *GetHotBlogService) Run(req *blog.BlogReq) (resp *[]*blog.Blog, err error) {
 	defer func() {
 		hlog.CtxInfof(h.Context, "req = %+v", req)
 		hlog.CtxInfof(h.Context, "resp = %+v", resp)

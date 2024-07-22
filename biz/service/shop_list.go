@@ -8,7 +8,7 @@ import (
 
 	"xzdp/biz/dal/mysql"
 	"xzdp/biz/dal/redis"
-	xzdp "xzdp/biz/model/xzdp"
+	shop "xzdp/biz/model/shop"
 	"xzdp/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
@@ -24,14 +24,14 @@ func NewShopListService(Context context.Context, RequestContext *app.RequestCont
 	return &ShopListService{RequestContext: RequestContext, Context: Context}
 }
 
-func QueryShopType(ctx context.Context) ([]*xzdp.ShopType, error) {
-	var shopTypeList []*xzdp.ShopType
+func QueryShopType(ctx context.Context) ([]*shop.ShopType, error) {
+	var shopTypeList []*shop.ShopType
 
 	// 从 Redis 获取数据
 	shopTypeJsonList, err := redis.RedisClient.LRange(ctx, constants.CACHE_SHOP_TYPE_LIST_KEY, 0, -1).Result()
 	if err == nil && len(shopTypeJsonList) > 0 {
 		for _, shopTypeJson := range shopTypeJsonList {
-			var shopType xzdp.ShopType
+			var shopType shop.ShopType
 			err := json.Unmarshal([]byte(shopTypeJson), &shopType)
 			if err != nil {
 				log.Printf("Error unmarshalling shop type: %v", err)
@@ -65,7 +65,7 @@ func QueryShopType(ctx context.Context) ([]*xzdp.ShopType, error) {
 	return shopTypeList, nil
 }
 
-func (h *ShopListService) Run(req *xzdp.Empty) (resp *[]*xzdp.ShopType, err error) {
+func (h *ShopListService) Run(req *shop.Empty) (resp *[]*shop.ShopType, err error) {
 	defer func() {
 		hlog.CtxInfof(h.Context, "req = %+v", req)
 		hlog.CtxInfof(h.Context, "resp = %+v", resp)

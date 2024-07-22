@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"xzdp/biz/dal/redis"
-	xzdp "xzdp/biz/model/xzdp"
+	user "xzdp/biz/model/user"
 	"xzdp/biz/utils"
 	"xzdp/pkg/constants"
 
@@ -22,7 +22,7 @@ func NewSendCodeService(Context context.Context, RequestContext *app.RequestCont
 	return &SendCodeService{RequestContext: RequestContext, Context: Context}
 }
 
-func (h *SendCodeService) Run(req *xzdp.UserLoginFrom) (resp *xzdp.Result, err error) {
+func (h *SendCodeService) Run(req *user.UserLoginFrom) (resp *user.Result, err error) {
 	defer func() {
 		hlog.CtxInfof(h.Context, "req = %+v", req)
 		hlog.CtxInfof(h.Context, "resp = %+v", resp)
@@ -40,5 +40,5 @@ func (h *SendCodeService) Run(req *xzdp.UserLoginFrom) (resp *xzdp.Result, err e
 	}
 
 	hlog.CtxInfof(h.Context, "code = %s", code)
-	return &xzdp.Result{Success: true}, nil
+	return &user.Result{Success: true}, nil
 }

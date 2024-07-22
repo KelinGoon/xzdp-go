@@ -1,4 +1,4 @@
-package xzdp
+package shop
 
 import (
 	"bytes"

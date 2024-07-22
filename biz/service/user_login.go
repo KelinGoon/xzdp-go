@@ -6,7 +6,7 @@ import (
 
 	"xzdp/biz/dal/mysql"
 	"xzdp/biz/dal/redis"
-	xzdp "xzdp/biz/model/xzdp"
+	model "xzdp/biz/model/user"
 	"xzdp/biz/utils"
 	"xzdp/pkg/constants"
 
@@ -23,7 +23,7 @@ func NewUserLoginService(Context context.Context, RequestContext *app.RequestCon
 	return &UserLoginService{RequestContext: RequestContext, Context: Context}
 }
 
-func (h *UserLoginService) Run(req *xzdp.UserLoginFrom) (resp *xzdp.Result, err error) {
+func (h *UserLoginService) Run(req *model.UserLoginFrom) (resp *model.Result, err error) {
 	defer func() {
 		hlog.CtxInfof(h.Context, "req = %+v", req)
 		hlog.CtxInfof(h.Context, "resp = %+v", resp)
@@ -34,7 +34,7 @@ func (h *UserLoginService) Run(req *xzdp.UserLoginFrom) (resp *xzdp.Result, err 
 	if phone == "" || code == "" {
 		return nil, fmt.Errorf("phone or code can't be empty")
 	}
-	var user xzdp.User
+	var user model.User
 	result := mysql.DB.First(&user, "phone = ?", phone)
 	if result.Error != nil {
 		return nil, result.Error
@@ -55,11 +55,12 @@ func (h *UserLoginService) Run(req *xzdp.UserLoginFrom) (resp *xzdp.Result, err 
 	if err != nil {
 		return nil, err
 	}
-	return &xzdp.Result{Success: true}, nil
+	fmt.Println(token)
+	return &model.Result{Success: true}, nil
 }
 
 func (h *UserLoginService) createNewUser(phone string) error {
-	user := xzdp.User{
+	user := model.User{
 		Phone: phone,
 	}
 	result := mysql.DB.Create(&user)

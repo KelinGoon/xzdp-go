@@ -2,7 +2,7 @@ package mysql
 
 import (
 	"context"
-	model "xzdp/biz/model/xzdp"
+	model "xzdp/biz/model/user"
 	"xzdp/biz/utils"
 
 	"gorm.io/gorm"

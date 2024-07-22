@@ -3,8 +3,9 @@ package service
 import (
 	"context"
 
+	model "xzdp/biz/model/user"
+
 	"github.com/cloudwego/hertz/pkg/app"
-	xzdp "xzdp/biz/model/xzdp"
 )
 
 type UserInfoService struct {
@@ -16,7 +17,7 @@ func NewUserInfoService(Context context.Context, RequestContext *app.RequestCont
 	return &UserInfoService{RequestContext: RequestContext, Context: Context}
 }
 
-func (h *UserInfoService) Run(req *xzdp.UserLoginFrom) (resp *xzdp.UserResp, err error) {
+func (h *UserInfoService) Run(req *model.UserLoginFrom) (resp *model.UserResp, err error) {
 	//defer func() {
 	// hlog.CtxInfof(h.Context, "req = %+v", req)
 	// hlog.CtxInfof(h.Context, "resp = %+v", resp)

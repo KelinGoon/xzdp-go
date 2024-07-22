@@ -1,10 +1,10 @@
-package xzdp
+package user
 
 import (
 	"context"
 	"fmt"
 
-	xzdp "xzdp/biz/model/xzdp"
+	model "xzdp/biz/model/user"
 	"xzdp/biz/service"
 	"xzdp/biz/utils"
 
@@ -12,18 +12,18 @@ import (
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
 
-// UserMethod .
-// @router /me [GET]
-func UserMethod(ctx context.Context, c *app.RequestContext) {
+// SendCode .
+// @router /user/code [POST]
+func SendCode(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req string
+	var req model.UserLoginFrom
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
 
-	resp, err := service.NewUserMethodService(ctx, c).Run(&req)
+	resp, err := service.NewSendCodeService(ctx, c).Run(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
@@ -36,7 +36,7 @@ func UserMethod(ctx context.Context, c *app.RequestContext) {
 // @router /user/login [POST]
 func UserLogin(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req xzdp.UserLoginFrom
+	var req model.UserLoginFrom
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
@@ -52,31 +52,11 @@ func UserLogin(ctx context.Context, c *app.RequestContext) {
 	utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
 }
 
-// SendCode .
-// @router /user/code [POST]
-func SendCode(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req xzdp.UserLoginFrom
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
-		return
-	}
-
-	resp, err := service.NewSendCodeService(ctx, c).Run(&req)
-
-	if err != nil {
-		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
-		return
-	}
-	utils.SendRawResponse(ctx, c, consts.StatusOK, resp)
-}
-
 // UserInfo .
 // @router /user/:id [GET]
 func UserInfo(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req xzdp.UserLoginFrom
+	var req model.UserLoginFrom
 	err = c.BindAndValidate(&req)
 	id := c.Param("id")
 	fmt.Println(id)
@@ -86,6 +66,26 @@ func UserInfo(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp, err := service.NewUserInfoService(ctx, c).Run(&req)
+
+	if err != nil {
+		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
+		return
+	}
+	utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
+}
+
+// UserMethod .
+// @router /user/me [GET]
+func UserMethod(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req string
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
+		return
+	}
+
+	resp, err := service.NewUserMethodService(ctx, c).Run(&req)
 
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)

@@ -1,27 +1,27 @@
-package xzdp
+package shop
 
 import (
 	"context"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	xzdp "xzdp/biz/model/xzdp"
+	shop "xzdp/biz/model/shop"
 	"xzdp/biz/service"
 	"xzdp/biz/utils"
 )
 
-// GetHotBlog .
-// @router /blog/hot [GET]
-func GetHotBlog(ctx context.Context, c *app.RequestContext) {
+// ShopList .
+// @router /shop-type/list [GET]
+func ShopList(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req xzdp.BlogReq
+	var req shop.Empty
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
 
-	resp, err := service.NewGetHotBlogService(ctx, c).Run(&req)
+	resp, err := service.NewShopListService(ctx, c).Run(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
