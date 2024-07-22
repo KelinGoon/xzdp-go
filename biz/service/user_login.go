@@ -37,11 +37,12 @@ func (h *UserLoginService) Run(req *model.UserLoginFrom) (resp *model.Result, er
 	var user model.User
 	result := mysql.DB.First(&user, "phone = ?", phone)
 	if result.Error != nil {
-		return nil, result.Error
+		err = h.createNewUserWithPhone(phone)
+		if err != nil {
+			return nil, err
+		}
 	}
-	if result.RowsAffected == 0 {
-		return nil, fmt.Errorf("user not found")
-	}
+	fmt.Println(user)
 	redisCode, err := redis.RedisClient.Get(h.Context, constants.LOGIN_CODE_KEY+phone).Result()
 	if err != nil {
 		hlog.CtxErrorf(h.Context, "err = %s", err.Error())
@@ -55,12 +56,18 @@ func (h *UserLoginService) Run(req *model.UserLoginFrom) (resp *model.Result, er
 	if err != nil {
 		return nil, err
 	}
+
+	redis.RedisClient.HSet(h.Context, constants.LOGIN_USER_KEY+phone, "token", map[string]interface{}{
+		"id":       user.ID,
+		"nickname": user.NickName,
+		"icon":     user.Icon,
+	})
 	fmt.Println(token)
-	return &model.Result{Success: true}, nil
+	return &model.Result{Success: true, Data: &token}, nil
 }
 
-func (h *UserLoginService) createNewUser(phone string) error {
-	user := model.User{
+func (h *UserLoginService) createNewUserWithPhone(phone string) error {
+	user := mysql.User{
 		Phone: phone,
 	}
 	result := mysql.DB.Create(&user)

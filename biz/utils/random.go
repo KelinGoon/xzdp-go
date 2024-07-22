@@ -58,6 +58,7 @@ func RandomUUID() (string, error) {
 	randomBytes[6] |= 0x40 // set version to 4 (random uuid)
 	randomBytes[8] &= 0x3f // clear variant
 	randomBytes[8] |= 0x80 // set to IETF variant
+	return fmt.Sprintf("%x", randomBytes), nil
 
-	return fmt.Sprintf("%x-%x-%x-%x-%x", randomBytes[0:4], randomBytes[4:6], randomBytes[6:8], randomBytes[8:10], randomBytes[10:]), nil
+	// return fmt.Sprintf("%x-%x-%x-%x-%x", randomBytes[0:4], randomBytes[4:6], randomBytes[6:8], randomBytes[8:10], randomBytes[10:]), nil
 }

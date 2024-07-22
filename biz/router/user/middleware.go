@@ -35,3 +35,8 @@ func _usermethodMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _usermeMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

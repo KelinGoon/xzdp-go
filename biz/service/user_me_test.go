@@ -6,13 +6,13 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/test/assert"
-	xzdp "xzdp/biz/model/xzdp"
+	user "xzdp/biz/model/user"
 )
 
-func TestUserMethodService_Run(t *testing.T) {
+func TestUserMeService_Run(t *testing.T) {
 	ctx := context.Background()
 	c := app.NewContext(1)
-	s := NewUserMethodService(ctx, c)
+	s := NewUserMeService(ctx, c)
 	// init req and assert value
 	req := &string{}
 	resp, err := s.Run(req)

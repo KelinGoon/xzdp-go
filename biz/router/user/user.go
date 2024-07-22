@@ -22,6 +22,6 @@ func Register(r *server.Hertz) {
 		_user.POST("/code", append(_sendcodeMw(), user.SendCode)...)
 		_user.GET("/:id", append(_userinfoMw(), user.UserInfo)...)
 		_user.POST("/login", append(_userloginMw(), user.UserLogin)...)
-		_user.GET("/me", append(_usermethodMw(), user.UserMethod)...)
+		_user.GET("/me", append(_usermeMw(), user.UserMe)...)
 	}
 }
