@@ -36,5 +36,6 @@ func main() {
 	redis.Init()
 
 	register(h)
+	// h.PrintRoute("GET")
 	h.Spin()
 }
